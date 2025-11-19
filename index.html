@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EasyFinanceIA - Sua IA Financeira no WhatsApp</title>
+    <!-- Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome para ícones -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- AOS Library para animações -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <style>
+        /* Personalizações adicionais */
+        .gradient-primary {
+            background: linear-gradient(90deg, #1dbd70 0%, #2be28a 50%, #5cf0a0 100%);
+        }
+        
+        .gradient-vertical {
+            background: linear-gradient(180deg, #1dbd70 0%, #2be28a 100%);
+        }
+        
+        .gradient-diagonal {
+            background: linear-gradient(135deg, #1dbd70 0%, #2be28a 100%);
+        }
+        
+        .gradient-card {
+            background: linear-gradient(90deg, rgba(43, 226, 138, 0.1) 0%, rgba(43, 226, 138, 0.05) 100%);
+        }
+        
+        .gradient-footer {
+            background: linear-gradient(90deg, #111 0%, #000 100%);
+        }
+        
+        .shadow-glow {
+            box-shadow: 0 0 15px rgba(43, 226, 138, 0.3);
+        }
+        
+        .hover-glow:hover {
+            box-shadow: 0 0 20px rgba(43, 226, 138, 0.5);
+        }
+        
+        .text-gradient {
+            background: linear-gradient(90deg, #1dbd70, #2be28a, #5cf0a0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .animate-pulse-slow {
+            animation: pulse 3s infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .animate-float {
+            animation: float 5s ease-in-out infinite;
+        }
+        
+        /* Efeito de fade para elementos ao rolar */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s, transform 0.6s;
+        }
+        
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Destaque para o plano mais popular */
+        .popular-plan {
+            transform: scale(1.05);
+            border: 2px solid #2be28a;
+            position: relative;
+        }
+        
+        .popular-badge {
+            position: absolute;
+            top: -12px;
+            right: 20px;
+            background: #2be28a;
+            color: black;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body class="bg-black text-white">
+    <!-- Header/Navbar -->
+    <header class="sticky top-0 z-50 bg-black bg-opacity-90 backdrop-blur-sm">
+        <nav class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <div class="w-10 h-10 rounded-full gradient-primary flex items-center justify-center">
+                    <i class="fas fa-chart-line text-white"></i>
+                </div>
+                <span class="text-2xl font-bold text-gradient">EasyFinanceIA</span>
+            </div>
+            
+            <!-- Menu para desktop -->
+            <div class="hidden md:flex space-x-8">
+                <a href="#inicio" class="text-white hover:text-[#2be28a] transition-colors duration-300">Início</a>
+                <a href="#como-funciona" class="text-white hover:text-[#2be28a] transition-colors duration-300">Como Funciona</a>
+                <a href="#planos" class="text-white hover:text-[#2be28a] transition-colors duration-300">Planos</a>
+                <a href="#depoimentos" class="text-white hover:text-[#2be28a] transition-colors duration-300">Depoimentos</a>
+                <a href="#contato" class="text-white hover:text-[#2be28a] transition-colors duration-300">Contato</a>
+            </div>
+            
+            <div class="hidden md:flex space-x-4">
+                <button class="px-4 py-2 rounded-lg border border-[#2be28a] text-[#2be28a] hover:bg-[#2be28a] hover:text-black transition-colors duration-300">Entrar</button>
+                <button class="px-4 py-2 rounded-lg gradient-primary text-black font-semibold hover:shadow-glow transition-all duration-300">Experimentar Grátis</button>
+            </div>
+            
+            <!-- Menu mobile -->
+            <button id="mobile-menu-button" class="md:hidden text-white">
+                <i class="fas fa-bars text-xl"></i>
+            </button>
+        </nav>
+        
+        <!-- Menu mobile expandido -->
+        <div id="mobile-menu" class="hidden md:hidden bg-black py-4 px-4">
+            <div class="flex flex-col space-y-4">
+                <a href="#inicio" class="text-white hover:text-[#2be28a] transition-colors duration-300">Início</a>
+                <a href="#como-funciona" class="text-white hover:text-[#2be28a] transition-colors duration-300">Como Funciona</a>
+                <a href="#planos" class="text-white hover:text-[#2be28a] transition-colors duration-300">Planos</a>
+                <a href="#depoimentos" class="text-white hover:text-[#2be28a] transition-colors duration-300">Depoimentos</a>
+                <a href="#contato" class="text-white hover:text-[#2be28a] transition-colors duration-300">Contato</a>
+                <div class="flex space-x-4 pt-2">
+                    <button class="px-4 py-2 rounded-lg border border-[#2be28a] text-[#2be28a] hover:bg-[#2be28a] hover:text-black transition-colors duration-300 w-full">Entrar</button>
+                    <button class="px-4 py-2 rounded-lg gradient-primary text-black font-semibold hover:shadow-glow transition-all duration-300 w-full">Experimentar Grátis</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="inicio" class="py-16 md:py-24 bg-gradient-to-r from-black via-[#111] to-black">
+        <div class="container mx-auto px-4 flex flex-col md:flex-row items-center">
+            <div class="md:w-1/2 mb-10 md:mb-0" data-aos="fade-right">
+                <h1 class="text-4xl md:text-6xl font-bold mb-6">
+                    Sua <span class="text-gradient">IA Financeira</span> no WhatsApp
+                </h1>
+                <p class="text-lg md:text-xl text-gray-300 mb-8">
+                    A EasyFinanceIA é a inteligência artificial financeira que está com você no dia a dia pelo WhatsApp, ajudando a cadastrar gastos e gerir seu orçamento ao longo do mês para assim você se tornar uma pessoa mais organizada financeiramente.
+                </p>
+                <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+                    <button class="px-6 py-3 rounded-lg gradient-primary text-black font-semibold text-lg hover:shadow-glow transition-all duration-300 flex items-center justify-center">
+                        <i class="fab fa-whatsapp mr-2"></i> Começar pelo WhatsApp
+                    </button>
+                    <button class="px-6 py-3 rounded-lg border border-[#2be28a] text-[#2be28a] hover:bg-[#2be28a] hover:text-black transition-colors duration-300 flex items-center justify-center">
+                        <i class="fas fa-play-circle mr-2"></i> Ver Demonstração
+                    </button>
+                </div>
+            </div>
+            <div class="md:w-1/2 flex justify-center" data-aos="fade-left">
+                <div class="relative w-full max-w-md">
+                    <div class="w-64 h-64 rounded-full gradient-primary opacity-20 blur-2xl absolute -top-10 -left-10 animate-pulse-slow"></div>
+                    <div class="w-64 h-64 rounded-full gradient-diagonal opacity-20 blur-2xl absolute -bottom-10 -right-10 animate-pulse-slow"></div>
+                    <div class="bg-gradient-to-br from-[#111] to-black rounded-2xl p-6 shadow-glow relative z-10 animate-float">
+                        <div class="flex items-center mb-4">
+                            <div class="w-12 h-12 rounded-full gradient-primary flex items-center justify-center mr-4">
+                                <i class="fab fa-whatsapp text-white text-xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-lg">EasyFinanceIA</h3>
+                                <p class="text-gray-400">Sua IA Financeira no WhatsApp</p>
+                            </div>
+                        </div>
+                        <div class="mb-4">
+                            <div class="flex justify-between text-sm mb-1">
+                                <span>Economia este mês</span>
+                                <span>R$ 420</span>
+                            </div>
+                            <div class="w-full bg-gray-800 rounded-full h-2">
+                                <div class="gradient-primary h-2 rounded-full" style="width: 65%"></div>
+                            </div>
+                        </div>
+                        <div class="flex justify-between text-sm">
+                            <div>
+                                <p class="text-gray-400">Gasto planejado</p>
+                                <p class="font-semibold">R$ 650</p>
+                            </div>
+                            <div>
+                                <p class="text-gray-400">Gasto real</p>
+                                <p class="font-semibold">R$ 230</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Como Funciona Section -->
+    <section id="como-funciona" class="py-16 bg-gradient-to-b from-black to-[#111]">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12" data-aos="fade-up">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">Como a <span class="text-gradient">EasyFinanceIA</span> funciona</h2>
+                <p class="text-lg text-gray-400 max-w-2xl mx-auto">Uma IA financeira que conversa com você pelo WhatsApp e ajuda a organizar suas finanças de forma simples e prática.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Passo 1 -->
+                <div class="gradient-card rounded-2xl p-6 border border-gray-800 hover-glow transition-all duration-300" data-aos="fade-up" data-aos-delay="100">
+                    <div class="w-14 h-14 rounded-lg gradient-primary flex items-center justify-center mb-4">
+                        <i class="fab fa-whatsapp text-white text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">1. Conecte pelo WhatsApp</h3>
+                    <p class="text-gray-400 mb-4">Adicione o número da EasyFinanceIA no seu WhatsApp e inicie a conversa. É rápido e fácil!</p>
+                    <div class="flex justify-center mt-4">
+                        <img src="https://cdn-icons-png.flaticon.com/512/124/124034.png" alt="WhatsApp" class="w-16 h-16">
+                    </div>
+                </div>
+                
+                <!-- Passo 2 -->
+                <div class="gradient-card rounded-2xl p-6 border border-gray-800 hover-glow transition-all duration-300" data-aos="fade-up" data-aos-delay="200">
+                    <div class="w-14 h-14 rounded-lg gradient-primary flex items-center justify-center mb-4">
+                        <i class="fas fa-comment-dollar text-white text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">2. Registre seus gastos</h3>
+                    <p class="text-gray-400 mb-4">Envie mensagens como "gastei R$ 50 no almoço" e a IA categoriza automaticamente.</p>
+                    <div class="flex justify-center mt-4">
+                        <img src="https://cdn-icons-png.flaticon.com/512/3135/3135679.png" alt="Registro de Gastos" class="w-16 h-16">
+                    </div>
+                </div>
+                
+                <!-- Passo 3 -->
+                <div class="gradient-card rounded-2xl p-6 border border-gray-800 hover-glow transition-all duration-300" data-aos="fade-up" data-aos-delay="300">
+                    <div class="w-14 h-14 rounded-lg gradient-primary flex items-center justify-center mb-4">
+                        <i class="fas fa-chart-pie text-white text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">3. Acompanhe e melhore</h3>
+                    <p class="text-gray-400 mb-4">Receba relatórios, alertas e dicas personalizadas para melhorar sua saúde financeira.</p>
+                    <div class="flex justify-center mt-4">
+                        <img src="https://cdn-icons-png.flaticon.com/512/3135/3135689.png" alt="Relatórios" class="w-16 h-16">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Planos Section -->
+    <section id="planos" class="py-16 bg-gradient-to-r from-black to-[#111]">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12" data-aos="fade-up">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">Escolha seu <span class="text-gradient">Plano</span></h2>
+                <p class="text-lg text-gray-400 max-w-2xl mx-auto">Planos acessíveis para todos os perfis. Experimente gratuitamente por 7 dias!</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+                <!-- Plano Básico -->
+                <div class="gradient-card rounded-2xl p-6 border border-gray-800 hover-glow transition-all duration-300" data-aos="fade-up" data-aos-delay="100">
+                    <div class="text-center mb-6">
+                        <h3 class="text-2xl font-bold mb-2">Plano Básico</h3>
+                        <div class="flex justify-center items-baseline mb-4">
+                            <span class="text-4xl font-bold text-[#2be28a]">R$ 9</span>
+                            <span class="text-gray-400 ml-2">/mês</span>
+                        </div>
+                        <p class="text-gray-400">Ideal para quem quer começar a organizar as finanças</p>
+                    </div>
+                    
+                    <ul class="space-y-4 mb-8">
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-[#2be28a] mr-2"></i>
+                            <span>Cadastro de gastos via WhatsApp</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-[#2be28a] mr-2"></i>
+                            <span>Categorização automática</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-[#2be28a] mr-2"></i>
+                            <span>Acesso à plataforma web</span>
+                        </li>
+                        <li class="flex items-center text-gray-500">
+                            <i class="fas fa-times mr-2"></i>
+                            <span>Relatórios detalhados</span>
+                        </li>
+                        <li class="flex items-center text-gray-500">
+                            <i class="fas fa-times mr-2"></i>
+                            <span>Agente IA para dúvidas</span>
+                        </li>
+                        <li class="flex items-center text-gray-500">
+                            <i class="fas fa-times mr-2"></i>
+                            <span>Fluxo familiar compartilhado</span>
+                        </li>
+                    </ul>
+                    
+                    <button class="w-full py-3 rounded-lg border border-[#2be28a] text-[#2be28a] hover:bg-[#2be28a] hover:text-black transition-colors duration-300 font-semibold">
+                        Experimentar Grátis
+                    </button>
+                </div>
+                
+                <!-- Plano Intermediário -->
+                <div class="gradient-card rounded-2xl p-6 border border-gray-800 popular-plan hover-glow transition-all duration-300" data-aos="fade-up" data-aos-delay="200">
+                    <div class="popular-badge">MAIS POPULAR</div>
+                    <div class="text-center mb-6">
+                        <h3 class="text-2xl font-bold mb-2">Plano Intermediário</h3>
+                        <div class="flex justify-center items-baseline mb-4">
+                            <span class="text-4xl font-bold text-[#2be28a]">R$ 10</span>
+                            <span class="text-gray-400 ml-2">/mês</span>
+                        </div>
+                        <p class="text-gray-400">Para quem quer relatórios e mais controle</p>
+                    </div>
+                    
+                    <ul class="space-y-4 mb-8">
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-[#2be28a] mr-2"></i>
+                            <span>Todos os recursos do Plano Básico</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-[#2be28a] mr-2"></i>
+                            <span>Relatórios detalhados de gastos</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-[#2be28a] mr-2"></i>
+                            <span>Alertas personalizados</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-[#2be28a] mr-2"></i>
+                            <span>Metas financeiras</span>
+                        </li>
+                        <li class="flex items-center text-gray-500">
+                            <i class="fas fa-times mr-2"></i>
+                            <span>Agente IA para dúvidas</span>
+                        </li>
+                        <li class="flex items-center text-gray-500">
+                            <i class="fas fa-times mr-2"></i>
+                            <span>Fluxo familiar compartilhado</span>
+                        </li>
+                    </ul>
+                    
+                    <button class="w-full py-3 rounded-lg gradient-primary text-black font-semibold hover:shadow-glow transition-all duration-300">
+                        Experimentar Grátis
+                    </button>
+                </div>
+                
+                <!-- Plano Completo -->
+                <div class="gradient-card rounded-2xl p-6 border border-gray-800 hover-glow transition-all duration-300" data-aos="fade-up" data-aos-delay="300">
+                    <div class="text-center mb-6">
+                        <h3 class="text-2xl font-bold mb-2">Plano Completo</h3>
+                        <div class="flex justify-center items-baseline mb-4">
+                            <span class="text-4xl font-bold text-[#2be28a]">R$ 19</span>
+                            <span class="text-gray-400 ml-2">/mês</span>
+                        </div>
+                        <p class="text-gray-400">Para famílias e quem quer o máximo de controle</p>
+                    </div>
+                    
+                    <ul class="space-y-4 mb-8">
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-[#2be28a] mr-2"></i>
+                            <span>Todos os recursos do Plano Intermediário</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-[#2be28a] mr-2"></i>
+                            <span>Agente IA para dúvidas financeiras</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-[#2be28a] mr-2"></i>
+                            <span>Fluxo familiar compartilhado</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-[#2be28a] mr-2"></i>
+                            <span>Orçamento familiar colaborativo</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-[#2be28a] mr-2"></i>
+                            <span>Workflow completo de gestão</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-[#2be28a] mr-2"></i>
+                            <span>Suporte prioritário</span>
+                        </li>
+                    </ul>
+                    
+                    <button class="w-full py-3 rounded-lg border border-[#2be28a] text-[#2be28a] hover:bg-[#2be28a] hover:text-black transition-colors duration-300 font-semibold">
+                        Experimentar Grátis
+                    </button>
+                </div>
+            </div>
+            
+            <div class="text-center mt-12" data-aos="fade-up">
+                <p class="text-gray-400">Todos os planos incluem teste gratuito de 7 dias. Cancele quando quiser.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Depoimentos Section -->
+    <section id="depoimentos" class="py-16 bg-gradient-to-b from-[#111] to-black">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12" data-aos="fade-up">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">O que nossos <span class="text-gradient">usuários</span> dizem</h2>
+                <p class="text-lg text-gray-400 max-w-2xl mx-auto">Depoimentos reais de pessoas que organizaram suas finanças com a EasyFinanceIA.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Depoimento 1 -->
+                <div class="gradient-card rounded-2xl p-6 border border-gray-800" data-aos="fade-up" data-aos-delay="100">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 rounded-full gradient-primary flex items-center justify-center mr-4">
+                            <span class="text-white font-bold">MC</span>
+                        </div>
+                        <div>
+                            <h3 class="font-bold">Maria Clara</h3>
+                            <p class="text-gray-400 text-sm">Plano Intermediário</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-300 mb-4">
+                        "Finalmente consegui organizar minhas finanças! A IA pelo WhatsApp é tão prática que nem parece que estou controlando gastos. Economizei R$ 300 no primeiro mês!"
+                    </p>
+                    <div class="flex text-[#2be28a]">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                </div>
+                
+                <!-- Depoimento 2 -->
+                <div class="gradient-card rounded-2xl p-6 border border-gray-800" data-aos="fade-up" data-aos-delay="200">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 rounded-full gradient-primary flex items-center justify-center mr-4">
+                            <span class="text-white font-bold">PS</span>
+                        </div>
+                        <div>
+                            <h3 class="font-bold">Pedro Silva</h3>
+                            <p class="text-gray-400 text-sm">Plano Completo</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-300 mb-4">
+                        "Uso com minha família e é incrível! Conseguimos alinhar nossos gastos e estabelecer metas juntos. O fluxo familiar compartilhado mudou nossa relação com o dinheiro."
+                    </p>
+                    <div class="flex text-[#2be28a]">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                </div>
+                
+                <!-- Depoimento 3 -->
+                <div class="gradient-card rounded-2xl p-6 border border-gray-800" data-aos="fade-up" data-aos-delay="300">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 rounded-full gradient-primary flex items-center justify-center mr-4">
+                            <span class="text-white font-bold">AS</span>
+                        </div>
+                        <div>
+                            <h3 class="font-bold">Ana Souza</h3>
+                            <p class="text-gray-400 text-sm">Plano Básico</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-300 mb-4">
+                        "Como freelancer, sempre tive dificuldade com organização financeira. A EasyFinanceIA me salvou! Agora sei exatamente para onde vai meu dinheiro e consigo planejar melhor."
+                    </p>
+                    <div class="flex text-[#2be28a]">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-16 bg-gradient-to-r from-[#111] to-black">
+        <div class="container mx-auto px-4 text-center" data-aos="fade-up">
+            <h2 class="text-3xl md:text-4xl font-bold mb-6">Pronto para transformar sua <span class="text-gradient">vida financeira</span>?</h2>
+            <p class="text-lg text-gray-400 max-w-2xl mx-auto mb-8">
+                Junte-se a milhares de usuários e comece a organizar suas finanças hoje mesmo pelo WhatsApp.
+            </p>
+            <button class="px-8 py-4 rounded-lg gradient-primary text-black font-bold text-lg hover:shadow-glow transition-all duration-300">
+                <i class="fab fa-whatsapp mr-2"></i> Começar Agora
+            </button>
+            <p class="text-gray-500 mt-4">Teste gratuito de 7 dias • Cancele quando quiser</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="gradient-footer py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div class="md:col-span-2">
+                    <div class="flex items-center space-x-2 mb-4">
+                        <div class="w-10 h-10 rounded-full gradient-primary flex items-center justify-center">
+                            <i class="fas fa-chart-line text-white"></i>
+                        </div>
+                        <span class="text-2xl font-bold text-gradient">EasyFinanceIA</span>
+                    </div>
+                    <p class="text-gray-400 mb-6 max-w-md">
+                        Sua IA financeira no WhatsApp que ajuda a cadastrar gastos e gerir seu orçamento para você se tornar uma pessoa mais organizada financeiramente.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="w-10 h-10 rounded-full bg-[#222] flex items-center justify-center text-white hover:bg-[#2be28a] transition-colors duration-300">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-[#222] flex items-center justify-center text-white hover:bg-[#2be28a] transition-colors duration-300">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-[#222] flex items-center justify-center text-white hover:bg-[#2be28a] transition-colors duration-300">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-[#222] flex items-center justify-center text-white hover:bg-[#2be28a] transition-colors duration-300">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-bold mb-4">Links Rápidos</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#inicio" class="text-gray-400 hover:text-[#2be28a] transition-colors duration-300">Início</a></li>
+                        <li><a href="#como-funciona" class="text-gray-400 hover:text-[#2be28a] transition-colors duration-300">Como Funciona</a></li>
+                        <li><a href="#planos" class="text-gray-400 hover:text-[#2be28a] transition-colors duration-300">Planos</a></li>
+                        <li><a href="#depoimentos" class="text-gray-400 hover:text-[#2be28a] transition-colors duration-300">Depoimentos</a></li>
+                        <li><a href="#contato" class="text-gray-400 hover:text-[#2be28a] transition-colors duration-300">Contato</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-bold mb-4">Contato</h3>
+                    <ul class="space-y-2">
+                        <li class="flex items-center text-gray-400">
+                            <i class="fab fa-whatsapp mr-2 text-[#2be28a]"></i>
+                            <span>(11) 99999-9999</span>
+                        </li>
+                        <li class="flex items-center text-gray-400">
+                            <i class="fas fa-envelope mr-2 text-[#2be28a]"></i>
+                            <span>contato@easyfinanceia.com</span>
+                        </li>
+                        <li class="flex items-start text-gray-400">
+                            <i class="fas fa-map-marker-alt mr-2 text-[#2be28a] mt-1"></i>
+                            <span>São Paulo, SP<br>Brasil</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-12 pt-8 text-center text-gray-500">
+                <p>&copy; 2023 EasyFinanceIA. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // Inicializar AOS (Animate On Scroll)
+        AOS.init({
+            duration: 800,
+            once: true,
+            offset: 100
+        });
+
+        // Menu mobile
+        document.getElementById('mobile-menu-button').addEventListener('click', function() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        });
+
+        // Fade in elements on scroll
+        const fadeElements = document.querySelectorAll('.fade-in');
+        
+        const fadeInOnScroll = () => {
+            fadeElements.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                const elementVisible = 150;
+                
+                if (elementTop < window.innerHeight - elementVisible) {
+                    element.classList.add('visible');
+                }
+            });
+        };
+        
+        window.addEventListener('scroll', fadeInOnScroll);
+        // Executar uma vez no carregamento da página
+        fadeInOnScroll();
+    </script>
+</body>
+</html>
